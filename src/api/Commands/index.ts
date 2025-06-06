@@ -65,6 +65,10 @@ export const _handleCommand = function (cmd: Command, args: Argument[], ctx: Com
     if (!cmd.isVencordCommand)
         return cmd.execute(args, ctx);
 
+    if (cmd.inputType === ApplicationCommandInputType.BUILT_IN_TEXT) {
+        return 1;
+    }
+
     const handleError = (err: any) => {
         // TODO: cancel send if cmd.inputType === BUILT_IN_TEXT
         const msg = `An Error occurred while executing command "${cmd.name}"`;

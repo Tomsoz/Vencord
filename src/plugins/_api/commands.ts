@@ -42,11 +42,14 @@ export default definePlugin({
         // command error handling
         {
             find: "Unexpected value for option",
-            replacement: {
+            replacement: [{
                 // return [2, cmd.execute(args, ctx)]
                 match: /,(\i)\.execute\((\i),(\i)\)/,
-                replace: (_, cmd, args, ctx) => `,Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`
-            }
+                replace: (_, cmd, args, ctx) => `;const isCommand=Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx});if(isCommand==1)return`
+                // replace: (_, cmd, args, ctx) => `Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`
+            }, {
+                match: "null==M.autocomplete&&", replace: "null==M.autocomplete&&N.isVencordCommand"
+            }]
         },
         // Show plugin name instead of "Built-In"
         {
